@@ -1,5 +1,5 @@
 
-import { Milestone } from './types';
+import { Milestone } from './types.ts';
 
 export const POKEMON_MILESTONES: Milestone[] = [
   {
