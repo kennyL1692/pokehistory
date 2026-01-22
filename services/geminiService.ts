@@ -1,7 +1,7 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const getHistoricalInsight = async (query: string) => {
   try {
@@ -13,14 +13,14 @@ export const getHistoricalInsight = async (query: string) => {
         thinkingConfig: { thinkingBudget: 0 }
       }
     });
-    return response.text || "I'm sorry, I couldn't retrieve the historical data at this moment.";
+    return response.text || "Archive entry corrupted.";
   } catch (error: any) {
     const errorMsg = error?.message || "";
     if (errorMsg.includes("429") || errorMsg.includes("quota")) {
-      return "QUOTA_REACHED: The Professor's neural network is recharging. Static archives are active below.";
+      return "QUOTA_REACHED: System overload. Viewing cached local data.";
     }
     console.error("Gemini API Error:", error);
-    return "The Professor is currently busy. Please try again later.";
+    return "The Professor is currently offline.";
   }
 };
 
@@ -39,13 +39,12 @@ export const getQuickStats = async () => {
     });
     return JSON.parse(response.text.trim()) as string[];
   } catch (error: any) {
-    // Graceful fallback to avoid blank spots in UI
     return [
-      "Capsule Monsters was the original working title.",
-      "The project almost bankrupted Game Freak multiple times.",
-      "Rhydon was the first Pokémon ever designed.",
-      "Mew was added at the very last second without Nintendo's knowledge.",
-      "Satoshi Tajiri's childhood hobby of bug collecting inspired the game."
+      "Rhydon was the very first Pokémon index created.",
+      "The game was developed by only 9 core people.",
+      "Capsule Monsters was the original project name.",
+      "Mew's inclusion was an unauthorized late addition.",
+      "Satoshi Tajiri's bug collecting hobby inspired the entire concept."
     ];
   }
 };

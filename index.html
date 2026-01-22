@@ -32,6 +32,20 @@
         .pikachu-red {
             background-color: #E63946;
         }
+        /* Scanline Effect */
+        .scanlines::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            z-index: 2;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
     </style>
 <script type="importmap">
 {
@@ -46,5 +60,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <!-- Explicit module entry point for Netlify/Static hosting -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>
