@@ -14,7 +14,11 @@ export const getHistoricalInsight = async (query: string) => {
       }
     });
     return response.text || "I'm sorry, I couldn't retrieve the historical data at this moment.";
-  } catch (error) {
+  } catch (error: any) {
+    const errorMsg = error?.message || "";
+    if (errorMsg.includes("429") || errorMsg.includes("quota")) {
+      return "QUOTA_REACHED: The Professor's neural network is recharging. Static archives are active below.";
+    }
     console.error("Gemini API Error:", error);
     return "The Professor is currently busy. Please try again later.";
   }
@@ -34,7 +38,8 @@ export const getQuickStats = async () => {
       }
     });
     return JSON.parse(response.text.trim()) as string[];
-  } catch (error) {
+  } catch (error: any) {
+    // Graceful fallback to avoid blank spots in UI
     return [
       "Capsule Monsters was the original working title.",
       "The project almost bankrupted Game Freak multiple times.",
